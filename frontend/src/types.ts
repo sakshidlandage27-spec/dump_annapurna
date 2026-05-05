@@ -1,4 +1,5 @@
 export type Page = 
+  | 'login'
   | 'welcome' 
   | 'menu' 
   | 'cart'

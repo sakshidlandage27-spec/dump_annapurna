@@ -4,6 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import LoginPage from './LoginPage';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   Utensils,
@@ -1390,9 +1391,19 @@ const ThankYouScreen = ({ onReset }: { onReset: () => void }) => {
 // --- Main App ---
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState<Page>('welcome');
+  const [currentPage, setCurrentPage] = useState<Page>('login');
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isStaffView, setIsStaffView] = useState(false);
+
+  const handleLogin = (role: 'customer' | 'staff') => {
+    if (role === 'staff') {
+      setIsStaffView(true);
+      setCurrentPage('staff-kitchen');
+    } else {
+      setIsStaffView(false);
+      setCurrentPage('welcome');
+    }
+  };
 
   const addToCart = (item: MenuItem) => {
     setCart(prev => {
@@ -1432,6 +1443,10 @@ export default function App() {
       default: return <WelcomeScreen onNext={() => setCurrentPage('menu')} />;
     }
   };
+
+  if (currentPage === 'login') {
+    return <LoginPage onLogin={handleLogin} />;
+  }
 
   return (
     <div className="font-sans text-slate-900 bg-slate-50 min-h-screen">
